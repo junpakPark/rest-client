@@ -1,0 +1,4 @@
+rootProject.name = 'rest-client'
+
+include('test-api')
+include('client')
