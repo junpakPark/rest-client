@@ -3,39 +3,29 @@ package com.example.client.infrastructure;
 import com.example.client.domain.RestClient;
 import com.example.client.dto.MemberDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.PostExchange;
 
-@Component
-public class HttpInterfaceRestClient implements RestClient {
+public interface HttpInterfaceRestClient extends RestClient {
+    @GetExchange("/test")
+    ResponseEntity<String> getHello();
 
-    private final HttpInterface httpInterface;
+    @GetExchange("/test/name")
+    ResponseEntity<String> getNameWithQueryParam(@RequestParam("name") final String name);
 
-    public HttpInterfaceRestClient(final HttpInterface httpInterface) {
-        this.httpInterface = httpInterface;
-    }
+    @GetExchange("/test/name/{name}")
+    ResponseEntity<String> getNameWithPathVariable(@PathVariable final String name);
 
-    @Override
-    public ResponseEntity<String> getHello() {
-        return httpInterface.getHello();
-    }
+    @PostExchange("/test/member")
+    ResponseEntity<MemberDto> postWithRequestBody(@RequestBody final MemberDto memberDto);
 
-    @Override
-    public ResponseEntity<String> getNameWithQueryParam(final String name) {
-        return httpInterface.getNameWithQueryParam(name);
-    }
-
-    @Override
-    public ResponseEntity<String> getNameWithPathVariable(final String name) {
-        return httpInterface.getNameWithPathVariable(name);
-    }
-
-    @Override
-    public ResponseEntity<MemberDto> postWithRequestBody(final String name) {
-        return httpInterface.postWithRequestBody(new MemberDto(name));
-    }
-
-    @Override
-    public ResponseEntity<MemberDto> postWithRequestHeaderAndBody(final String header, final String name) {
-        return httpInterface.postWithRequestHeaderAndBody(header, new MemberDto(name));
-    }
+    @PostExchange("/test/add-header")
+    ResponseEntity<MemberDto> postWithRequestHeaderAndBody(
+            @RequestHeader("auth") final String header,
+            @RequestBody final MemberDto memberDto
+    );
 }

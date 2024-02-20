@@ -44,7 +44,7 @@ public class RestClientService {
     }
 
     public MemberDto postWithRequestBody(final String name) {
-        ResponseEntity<MemberDto> responseEntity = restClient.postWithRequestBody(name);
+        ResponseEntity<MemberDto> responseEntity = restClient.postWithRequestBody(new MemberDto(name));
 
         LOGGER.info("status code : {}", responseEntity.getStatusCode());
         LOGGER.info("body : {}", responseEntity.getBody());
@@ -53,7 +53,7 @@ public class RestClientService {
     }
 
     public MemberDto postWithRequestHeaderAndBody(final String header, final String name) {
-        ResponseEntity<MemberDto> responseEntity = restClient.postWithRequestHeaderAndBody(header, name);
+        ResponseEntity<MemberDto> responseEntity = restClient.postWithRequestHeaderAndBody(header, new MemberDto(name));
 
         LOGGER.info("status code : {}", responseEntity.getStatusCode());
         LOGGER.info("body : {}", responseEntity.getBody());

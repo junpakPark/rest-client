@@ -49,21 +49,21 @@ public class WebClientRestClient implements RestClient {
     }
 
     @Override
-    public ResponseEntity<MemberDto> postWithRequestBody(final String name) {
+    public ResponseEntity<MemberDto> postWithRequestBody(final MemberDto memberDto) {
         return webClient.post()
                 .uri("/test/member")
-                .bodyValue(new MemberDto(name))
+                .bodyValue(memberDto)
                 .retrieve()
                 .toEntity(MemberDto.class)
                 .block();
     }
 
     @Override
-    public ResponseEntity<MemberDto> postWithRequestHeaderAndBody(final String header, final String name) {
+    public ResponseEntity<MemberDto> postWithRequestHeaderAndBody(final String header, final MemberDto memberDto) {
         return webClient.post()
                 .uri("/test/add-header")
                 .header("auth", header)
-                .bodyValue(new MemberDto(name))
+                .bodyValue(memberDto)
                 .retrieve()
                 .toEntity(MemberDto.class)
                 .block();

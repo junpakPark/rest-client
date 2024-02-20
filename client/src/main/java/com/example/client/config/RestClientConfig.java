@@ -1,7 +1,6 @@
 package com.example.client.config;
 
-import com.example.client.domain.RestClient;
-import com.example.client.infrastructure.HttpInterface;
+import com.example.client.infrastructure.HttpInterfaceRestClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,11 +23,11 @@ public class RestClientConfig {
     }
 
     @Bean
-    public HttpInterface restClientInterface(WebClient webClient) throws Exception {
+    public HttpInterfaceRestClient restClientInterface(WebClient webClient) {
         HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(WebClientAdapter.create(webClient))
                 .build();
 
-        return factory.createClient(HttpInterface.class);
+        return factory.createClient(HttpInterfaceRestClient.class);
     }
 }
 

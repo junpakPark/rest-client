@@ -11,8 +11,8 @@ public interface RestClient {
 
     ResponseEntity<String> getNameWithPathVariable(final String name);
 
-    ResponseEntity<MemberDto> postWithRequestBody(final String name);
+    ResponseEntity<MemberDto> postWithRequestBody(final MemberDto memberDto);
 
-    ResponseEntity<MemberDto> postWithRequestHeaderAndBody(final String header, final String name);
+    ResponseEntity<MemberDto> postWithRequestHeaderAndBody(final String header, final MemberDto memberDto);
 
 }

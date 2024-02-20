@@ -57,21 +57,19 @@ public class RestTemplateRestClient implements RestClient {
     }
 
     @Override
-    public ResponseEntity<MemberDto> postWithRequestBody(final String name) {
+    public ResponseEntity<MemberDto> postWithRequestBody(final MemberDto memberDto) {
         URI uri = UriComponentsBuilder.fromUriString(baseUrl)
                 .path("/test/member")
                 .encode()
                 .build()
                 .toUri();
 
-        MemberDto memberDto = new MemberDto(name);
-
         return restTemplate.postForEntity(uri, memberDto, MemberDto.class);
     }
 
 
     @Override
-    public ResponseEntity<MemberDto> postWithRequestHeaderAndBody(final String header, final String name) {
+    public ResponseEntity<MemberDto> postWithRequestHeaderAndBody(final String header, final MemberDto memberDto) {
         URI uri = UriComponentsBuilder.fromUriString(baseUrl)
                 .path("/test/add-header")
                 .encode()
@@ -80,7 +78,7 @@ public class RestTemplateRestClient implements RestClient {
 
         RequestEntity<MemberDto> requestEntity = RequestEntity.post(uri)
                 .header("auth", header)
-                .body(new MemberDto(name));
+                .body(memberDto);
 
         return restTemplate.exchange(requestEntity, MemberDto.class);
     }
