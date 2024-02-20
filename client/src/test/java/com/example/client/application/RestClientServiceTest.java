@@ -12,19 +12,47 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class RestClientServiceTest {
 
-    @Autowired
-    private ClientService clientService;
+    private RestClientService restClientService;
 
+    @Autowired
+    private RestTemplateRestClient restTemplate;
+
+    @Autowired
+    private WebClientRestClient webClient;
 
     @Test
-    void restTemplateClient() {
+    void restTemplate() {
+        // given
+        restClientService = new RestClientService(restTemplate);
 
         // when
-        String hello = clientService.getHello();
-        String name = clientService.getNameWithQueryParam("queryParam");
-        String name2 = clientService.getNameWithPathVariable("pathVariable");
-        MemberDto memberDto = clientService.postWithRequestBody("requestBody");
-        MemberDto memberDto2 = clientService.postWithRequestHeaderAndBody("requestHeader", "requestBody");
+        String hello = restClientService.getHello();
+        String name = restClientService.getNameWithQueryParam("queryParam");
+        String name2 = restClientService.getNameWithPathVariable("pathVariable");
+        MemberDto memberDto = restClientService.postWithRequestBody("requestBody");
+        MemberDto memberDto2 = restClientService.postWithRequestHeaderAndBody("requestHeader", "requestBody");
+
+        // then
+        assertSoftly(softAssertions -> {
+            softAssertions.assertThat(hello).isEqualTo("Hello, World!");
+            softAssertions.assertThat(name).isEqualTo("Hello, queryParam");
+            softAssertions.assertThat(name2).isEqualTo("Hello, pathVariable");
+            softAssertions.assertThat(memberDto.name()).isEqualTo("Hello, requestBody");
+            softAssertions.assertThat(memberDto2.name()).isEqualTo("requestHeader, requestBody");
+        });
+    }
+
+    @Test
+    void webClient() {
+        // given
+        restClientService = new RestClientService(webClient);
+
+        // when
+        String hello = restClientService.getHello();
+        String name = restClientService.getNameWithQueryParam("queryParam");
+        String name2 = restClientService.getNameWithPathVariable("pathVariable");
+        MemberDto memberDto = restClientService.postWithRequestBody("requestBody");
+        MemberDto memberDto2 = restClientService.postWithRequestHeaderAndBody("requestHeader", "requestBody");
 
         // then
         assertSoftly(softAssertions -> {
