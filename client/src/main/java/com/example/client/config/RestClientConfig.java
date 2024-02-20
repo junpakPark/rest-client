@@ -24,7 +24,8 @@ public class RestClientConfig {
 
     @Bean
     public HttpInterfaceRestClient restClientInterface(WebClient webClient) {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(WebClientAdapter.create(webClient))
+        WebClientAdapter webClientAdapter = WebClientAdapter.create(webClient);
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(webClientAdapter)
                 .build();
 
         return factory.createClient(HttpInterfaceRestClient.class);

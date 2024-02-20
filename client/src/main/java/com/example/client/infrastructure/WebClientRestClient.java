@@ -2,7 +2,6 @@ package com.example.client.infrastructure;
 
 import com.example.client.domain.RestClient;
 import com.example.client.dto.MemberDto;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -12,10 +11,8 @@ public class WebClientRestClient implements RestClient {
 
     private final WebClient webClient;
 
-    public WebClientRestClient(@Value("${rest.client.base.url}") String baseUrl) {
-        this.webClient = WebClient.builder()
-                .baseUrl(baseUrl)
-                .build();
+    public WebClientRestClient(final WebClient webClient) {
+        this.webClient = webClient;
     }
 
     @Override
